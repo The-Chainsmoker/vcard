@@ -1,0 +1,53 @@
+{
+  "name": "card",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build"
+  },
+  "dependencies": {
+    "axios": "^0.19.2",
+    "babel-plugin-import": "^1.13.0",
+    "core-js": "^3.6.5",
+    "exif-js": "^2.3.0",
+    "js-md5": "^0.7.3",
+    "jsbarcode": "^3.11.5",
+    "qrcodejs2": "^0.0.2",
+    "vant": "^2.12.29",
+    "vue": "^2.6.11",
+    "vue-axios": "^2.1.5",
+    "vue-router": "^3.2.0",
+    "vue2-toast": "^2.1.0",
+    "vuex": "^3.4.0"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^4.5.0",
+    "@vue/cli-service": "^4.4.0",
+    "compression-webpack-plugin": "^4.0.1",
+    "postcss-pxtorem": "^5.1.1",
+    "vue-cropper": "^0.5.8",
+    "vue-template-compiler": "^2.6.11"
+  },
+  "postcss": {
+    "plugins": {
+      "autoprefixer": {},
+      "postcss-pxtorem": {
+        "rootValue": 37.5,
+        "propList": [
+          "*"
+        ],
+        "exclude": "/web/i",
+        "selectorBlackList": [
+          "van",
+          "number-common-char"
+        ]
+      }
+    }
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
+}

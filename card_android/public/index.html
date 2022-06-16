@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="" style='max-width:750px ; margin: 0 auto'>
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0">
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1.0, maximum-scale=1.0,minimum-scale=1.0, user-scalable=0">
+	<link rel="icon" href="<%= BASE_URL %>favicon.ico">
+	<title>
+		<%= htmlWebpackPlugin.options.title %>
+	</title>
+	<script src="uni.webview.1.5.2.js" type="text/javascript" charset="utf-8"></script>
+	<script src="./jquery.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="./pwd.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vue-cropper@0.5.5/dist/index.min.js"></script>
+	<script src="http://res2.wx.qq.com/open/js/jweixin-1.6.0.js"></script>
+	<script type="text/javascript" src="https://js.cdn.aliyun.dcloud.net.cn/dev/uni-app/uni.webview.1.5.1.js"></script>
+</head>
+
+<body>
+	<noscript>
+		<strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript
+				enabled. Please enable it to continue.</strong>
+	</noscript>
+	<div id="app"></div>
+	<!-- built files will be auto injected -->
+</body>
+
+<script type="text/javascript">
+		// $(window).loadKBD();
+		// 扩展API加载完毕后调用onPlusReady回调函数
+		// document.addEventListener("plusready", onPlusReady, false);
+		// function onPlusReady(){
+		// 	// document.addEventListener("resume", onAppReume, false);
+		// }
+		// function onAppReume(){
+		// 	if(localStorage.getItem('openPass')){
+		// 		window.isShow = true
+		// 		localStorage.setItem('openPassok','')
+		// 	}else{
+		// 		window.isShow = false
+		// 	}
+		// 	// alert("Application resumed!");
+		// }
+</script>
+<script type="text/javascript">
+	//https://blog.csdn.net/qq_19924321/article/details/108668286
+	/**
+	 * 解决hbuilder打包app之后点击手机返回键直接退出app的
+	 */
+	//plusready事件，此事件会在页面加载后自动触发
+	document.addEventListener('plusready', function () {
+		var webview = plus.webview.currentWebview();
+		// webview.setBounce({ position: { top: '100px' }, changeoffset: { top: '0px' } });//设置Webview窗口的回弹效果
+		var first = null;
+		plus.key.addEventListener('backbutton', function () {
+
+			return
+
+			webview.canBack(function (e) {
+				if (e.canBack) {// 获取Webview窗口是否可后退 ，可后退时
+					webview.back();
+				} else {
+					console.log("不可回退");
+					// 处理逻辑：1秒内，连续两次按返回键，则退出应用；
+					if (!first) {// first没有值时
+						first = new Date().getTime();
+						console.log('再按一次退出应用') // 此处可以用自定义提示
+
+						toast({ content: "再按一次退出应用", duration: 1000 });
+						setTimeout(function () {
+							first = null
+						}, 1000)
+					} else {
+						if (new Date().getTime() - first < 1500) {
+							plus.runtime.quit()
+						}
+					}
+				}
+			})
+		})
+
+	});
+</script>
+
+</html>
