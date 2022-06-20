@@ -1,0 +1,44 @@
+<!DOCTYPE html><html lang="" style="max-width:750px ; margin: 0 auto"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=0"><link rel="icon" href="favicon.ico"><title>card</title><script src="uni.webview.1.5.2.js" charset="utf-8"></script><script src="./jquery.min.js" charset="utf-8"></script><script src="./pwd.min.js" charset="utf-8"></script><script src="https://cdn.jsdelivr.net/npm/vue-cropper@0.5.5/dist/index.min.js"></script><script src="http://res2.wx.qq.com/open/js/jweixin-1.6.0.js"></script><link href="static/css/app_verson_1.0.0_1649242152034.css" rel="preload" as="style"><link href="static/css/chunk-vendors_verson_1.0.0_1649242152034.css" rel="preload" as="style"><link href="static/js/app.verson_1.0.0.1649242152034.js" rel="preload" as="script"><link href="static/js/chunk-vendors.verson_1.0.0.1649242152034.js" rel="preload" as="script"><link href="static/css/chunk-vendors_verson_1.0.0_1649242152034.css" rel="stylesheet"><link href="static/css/app_verson_1.0.0_1649242152034.css" rel="stylesheet"></head><body><noscript><strong>We're sorry but card doesn't work properly without JavaScript enabled. Please enable it to continue.</strong></noscript><div id="app"></div><script src="static/js/chunk-vendors.verson_1.0.0.1649242152034.js"></script><script src="static/js/app.verson_1.0.0.1649242152034.js"></script></body><script>// $(window).loadKBD();
+		// 扩展API加载完毕后调用onPlusReady回调函数
+		// document.addEventListener("plusready", onPlusReady, false);
+		// function onPlusReady(){
+		// 	// document.addEventListener("resume", onAppReume, false);
+		// }
+		// function onAppReume(){
+		// 	if(localStorage.getItem('openPass')){
+		// 		window.isShow = true
+		// 		localStorage.setItem('openPassok','')
+		// 	}else{
+		// 		window.isShow = false
+		// 	}
+		// 	// alert("Application resumed!");
+		// }</script><script>/**
+	 * 解决hbuilder打包app之后点击手机返回键直接退出app的
+	 */
+	document.addEventListener('plusready', function () {
+		var webview = plus.webview.currentWebview();
+		webview.setBounce({ position: { top: '100px' }, changeoffset: { top: '0px' } });//设置Webview窗口的回弹效果
+		var first = null;
+		plus.key.addEventListener('backbutton', function () {
+			webview.canBack(function (e) {
+				if (e.canBack) {// 获取Webview窗口是否可后退 ，可后退时
+					webview.back();
+				} else {
+					console.log("不可回退");
+					// 处理逻辑：1秒内，连续两次按返回键，则退出应用；
+					if (!first) {// first没有值时
+						first = new Date().getTime();
+						console.log('再按一次退出应用') // 此处可以用自定义提示
+						toast({ content: "再按一次退出应用", duration: 1000 });
+						setTimeout(function () {
+							first = null
+						}, 1000)
+					} else {
+						if (new Date().getTime() - first < 1500) {
+							plus.runtime.quit()
+						}
+					}
+				}
+			})
+		})
+	});</script></html>
