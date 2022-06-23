@@ -369,8 +369,9 @@ export default {
   border-radius: 18px;
   width: 698px;
   height: 448px;
-  background-image: url(../assets/home/bank.png);
+  /* background-image: url(../assets/home/bank.png); */
   /* background-image: url(../assets/home/guangZhouBank.png); */
+  background-image: url(../assets/home/guangFaBank.png);
   background-size: 100% 100%;
   margin: -200px auto;
   padding: 50px;

@@ -28,7 +28,6 @@ import error from '../views/error.vue'
 import message from '../views/message'
 import stuset from '../views/stuset'
 import wxsign from '../views/wxsign'
-import Test from '@/components/Test'
 
 
 Vue.use(VueRouter)
@@ -49,12 +48,6 @@ const routes = [
   //   name: 'user',
   //   component: user
   // },
-  {
-    path: '/Test',
-    name: 'Test',
-    component: Test
-  },
-
   {
     path: '/wxsign',
     name: 'wxsign',

@@ -30,18 +30,17 @@
 
     <van-popup v-model="show" round :get-container="getContainer">
       <div class="container">
-        <div class="vcard">
+        <div class="vcard" v-show="vcardShow">
           <div class="msg">请先开卡！</div>
           <div class="btn btncolor" @click.prevent="goopencard()">
             银行卡支付
           </div>
-
         </div>
         <!-- <div class="btn" @click="wxlog()">
           校园轻松付
         </div> -->
 
-        <div class="btn" @click="wxSign()">
+        <div class="btn" @click="wxSign()" v-show="!vcardShow">
           校园轻松付
         </div>
       </div>
@@ -59,6 +58,7 @@
 import axios from 'axios'
 import QRCode from 'qrcodejs2'
 import JsBarcode from 'jsbarcode'
+
 export default {
   name: 'Home',
   components: {},
@@ -85,6 +85,8 @@ export default {
       qrCodeBottom: 0, //二维码尾部数
       startDate: '', //当前开始的日期
       scendSum: 0, //秒总数
+
+      vcardShow: true, //开卡是否
     }
   },
   created() {
@@ -103,12 +105,17 @@ export default {
 
         //获取二维码
         this.getCode()
+
         //开卡
         // this.getCard()
       } else {
         this.stuReg()
       }
     }
+
+    // if (localStorage.getItem('vcardShow') === 'false') {
+    //   this.vcardShow = false
+    // }
   },
   mounted() {
     // this.testPost()
@@ -135,10 +142,9 @@ export default {
       if (newData == 1) {
         //学员登录
         if (localStorage.getItem('campusId')) {
-          // this.show = true
-
           //获取二维码
           this.getCode()
+
           //开卡
           // this.getCard()
         } else {
@@ -152,97 +158,7 @@ export default {
   methods: {
     //测试接口
     // async testPost() {
-    //   //影印件采集
-    //   // var date = {
-    //   //   transCode: 'UPLOADPHOTO',
-    //   //   /*必传参数*/
-    //   //   txnType: 'SA029', //交易类型，参考银联交易类型
-    //   //   queryId: '0001000020170701161543655233', //请求id(唯一性)，其格式固定为： 交易发起方机构代码（8 位）+交易发起方系 统的交易日期时间（14 位）+交易发起方系 统流水号（6 位）。该流水号由交易发起方平 台生成，取值从 000001-999999 循环使用。 查询流水号是交易的唯一主键
-    //   //   md5: '',
 
-    //   //   /*选填参数;  交易类型为影印件采集传字段*/
-    //   //   idCardPicP: '身份证照片正面',
-    //   //   idCardPicN: '身份证照片反面',
-    //   //   facePic: '人脸影像照片',
-
-    //   //   /*动态参数;  根据交易类型封装*/
-    //   //   mapEncrypt: {
-    //   //     bussTp: '新开立Ⅲ类账户',
-    //   //     issInsCode: 'II/III 类账户开户行机 构代码',
-    //   //   },
-    //   // }
-
-    //   //身份验证
-    //   // var date = {
-    //   //   transCode: 'REALAUTH',
-    //   //   txnType: 'SA001',
-    //   //   queryId: '0001000020170701161543655233',
-    //   //   md5: '',
-    //   //   mapEncrypt: {
-    //   //     issInsCode: 'II/III类账户开户行机构代码',
-    //   //     priAccNo: '绑定账户卡号',
-    //   //     certifId: '身份证号码',
-    //   //     customerNm: '姓名',
-    //   //     phoneNo: '手机号',
-    //   //     bussTp: '03-新开立III类账户',
-    //   //   },
-    //   // }
-    //   //开卡
-    //   // var date = {
-    //   //   transCode: 'RESETPASSWD2',
-    //   //   txnType: 'SA002',
-    //   //   queryId: '0001000020170701161543655233',
-    //   //   md5: '',
-    //   //   mapEncrypt: {
-    //   //     issInsCode: 'II/III类账户开户行机构代码',
-    //   //     priAccNo: '绑定账户卡号',
-    //   //     customerNm: '姓名',
-    //   //     certifId: '身份证号码',
-    //   //     phoneNo: '手机号',
-    //   //     msgCode: '短信验证码',
-    //   //     bussTp: '03-新开立III类账户',
-    //   //   },
-    //   // }
-
-    //   // var ret = await this.$api.reqFn(date)
-    //   // console.log('ret', ret)
-
-    //   // plus.geolocation.getCurrentPosition(
-    //   //   function (p) {
-    //   //     alert(
-    //   //       'Geolocation\nLatitude:' +
-    //   //         p.coords.latitude +
-    //   //         '\nLongitude:' +
-    //   //         p.coords.longitude +
-    //   //         '\nAltitude:' +
-    //   //         p.coords.altitude
-    //   //     )
-    //   //   },
-    //   //   function (e) {
-    //   //     alert('Geolocation error: ' + e.message)
-    //   //   }
-    //   // )
-
-    //   plus.geolocation.getCurrentPosition(
-    //     function (p) {
-    //       if (p.addresses) {
-    //         alert(JSON.stringify(p))
-    //         alert(p.addresses)
-    //         alert(p.coords.longitude)
-    //         alert(p.coords.latitude)
-    //       } else {
-    //         alert('请授权手机位置信息！')
-    //       }
-
-    //       // var gpsPoint = new plus.maps.Point(p.coords.longitude, p.coords.latitude)
-    //       // map.centerAndZoom(gpsPoint, 19)
-    //     },
-    //     function (e) {},
-    //     {
-    //       provider: 'baidu',
-    //       coordsType: 'bd09ll',
-    //     }
-    //   )
     // },
 
     //跳转到开通公众号指示页面
@@ -350,7 +266,27 @@ export default {
         localStorage.setItem('contractImgUrl', ret.contractImgUrl)
 
         // this.$toast('请签约')
-        this.show = true
+        // this.show = true
+
+        this.$dialog
+          .alert({
+            message: '使用本App需要实名认证!',
+          })
+          .then(() => {
+            this.$router.push({
+              path: '/opencard',
+            })
+          })
+
+        if (localStorage.getItem('vcardShow') === 'false') {
+          this.$dialog
+            .alert({
+              message: '使用本App充值等,需要签约微信代扣!',
+            })
+            .then(() => {
+              this.$router.push({ name: 'wxsign' })
+            })
+        }
       }
     },
 
@@ -576,8 +512,7 @@ export default {
     },
     //TODO
     goopencard() {
-      return
-
+      localStorage.setItem('vcardShow', this.vcardShow)
       // window.open('/#/opencard')
       this.$router.push({
         path: '/opencard',
@@ -601,9 +536,9 @@ export default {
 .btn:active {
   opacity: 0.8;
 }
-.btncolor {
+/* .btncolor {
   background-color: #a4a4a4;
-}
+} */
 .vcard {
   position: relative;
 }
@@ -616,7 +551,7 @@ export default {
 
 .container {
   width: 530px;
-  height: 340px;
+  height: 240px;
   border-radius: 25px;
   display: flex;
   flex-direction: column;

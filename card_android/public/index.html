@@ -56,9 +56,6 @@
 		// webview.setBounce({ position: { top: '100px' }, changeoffset: { top: '0px' } });//设置Webview窗口的回弹效果
 		var first = null;
 		plus.key.addEventListener('backbutton', function () {
-
-			return
-
 			webview.canBack(function (e) {
 				if (e.canBack) {// 获取Webview窗口是否可后退 ，可后退时
 					webview.back();

@@ -96,7 +96,7 @@ instance.interceptors.response.use(function (response) {
 			Dialog.alert({
 				message: '该账号已在其他手机登录,请重新登录!',
 			}).then(() => {
-				localStorage.setItem('token', '')
+				// localStorage.setItem('token', '')
 			});
 		}
 		return response.data

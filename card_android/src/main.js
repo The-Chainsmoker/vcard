@@ -27,6 +27,8 @@ Vue.use(Popup)
 // Vue.use(Toast);
 
 Vue.prototype.$toast = Toast
+Vue.prototype.$dialog = Dialog
+
 Vue.use(Vant);
 
 

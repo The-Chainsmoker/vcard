@@ -13,10 +13,10 @@
           </div>
           <span class="text" :class="{textold:temp > 0,textac:temp ==0}">信息录入</span>
         </div>
-        <div class="line" v-show="formDataYL.type == 'idcard'">
+        <!-- <div class="line" v-show="formDataYL.type == 'idcard'">
           <div></div>
-        </div>
-        <div class="temp" v-show="formDataYL.type == 'idcard'">
+        </div> -->
+        <!-- <div class="temp" v-show="formDataYL.type == 'idcard'">
           <div class="tempt" :class="temp==1?'active':''">
             <span v-if="temp > 1">
               <img src="../assets/dui.png">
@@ -25,7 +25,7 @@
             <span class="next" v-if="temp == 0"></span>
           </div>
           <span class="text" :class="{textold:temp > 1,textac:temp ==1}">证件上传</span>
-        </div>
+        </div> -->
         <div class="line">
           <div></div>
         </div>
@@ -70,7 +70,7 @@
                 <input v-model="formDataYL.mapEncrypt.customerNm" placeholder="请输入姓名" type="text" @input="checkFull">
               </div>
             </div>
-            <!-- <div class="list">
+            <div class="list">
               <span class="listl">性别</span>
               <div class="listr">
                 <van-radio-group v-model="formData.gender" direction="horizontal">
@@ -78,77 +78,90 @@
                   <van-radio checked-color="#ee0a24" name="F">女</van-radio>
                 </van-radio-group>
               </div>
-            </div> -->
-            <!-- <div class="list">
+            </div>
+            <div class="list">
               <span class="listl">职业</span>
               <div class="listr">
                 <select name="userOccupation" v-model="formData.userOccupation">
-                  <option value="24">教学人员</option>
-                  <option value="Y1">学生</option>
-                  <option value="Y9">其他从业</option>
+                  <!-- <option value="24">教学人员</option> -->
+                  <option value="Y1" selected>学生</option>
+                  <!-- <option value="Y9">其他从业</option> -->
                 </select>
               </div>
-            </div> -->
-            <!-- <div class="list">
+            </div>
+            <div class="list">
               <span class="listl">国籍</span>
               <div class="listr">
                 <select name="countryCode" v-model="formData.countryCode">
                   <option value="156">中国</option>
                 </select>
               </div>
-            </div> -->
-            <div class="list" @click="showcardnum = true">
+            </div>
+
+            <div class="list">
+              <span class="listl">证件类型</span>
+              <div class="listr">
+                <select name="userOccupation" v-model="formData.identity">
+                  <option value="18">身份证件</option>
+                  <!-- <option value="Y1">居民身份证</option>
+                  <option value="Y9">出生证</option>
+                  <option value="Y9">护照</option> -->
+                </select>
+              </div>
+            </div>
+
+            <div class="list">
               <span class="listl">身份证号</span>
               <div class="listr">
-                <input readonly="readonly" v-model="formDataYL.mapEncrypt.certifId" placeholder="请输入身份证号" type="text">
-                <!-- <img class="cama" src="../assets/camara.png"> -->
+                <input @click="showcardnum = true" readonly="readonly" class='identity' v-model="formDataYL.mapEncrypt.certifId" placeholder="请输入身份证号" type="text">
+                <img class="cama" src="../assets/camara.png" @click="getupload">
               </div>
             </div>
             <van-number-keyboard v-model="formDataYL.mapEncrypt.certifId" :show="showcardnum" :maxlength="18" extra-key="X" close-button-text="完成" @blur="showcardnum = false" @input="onInput" @delete="onDelete" @hide="checkFull" />
 
-            <div class="list" @click="show = true">
-              <span class="listl">银行卡号</span>
-              <div class="listr">
-                <input readonly="readonly" v-model="formDataYL.mapEncrypt.priAccNo" placeholder="请输入银行卡号" type="text">
-                <!-- <img class="cama" src="../assets/camara.png"> -->
-              </div>
-            </div>
-            <van-number-keyboard v-model="formDataYL.mapEncrypt.priAccNo" :maxlength="19" :show="show" close-button-text="完成" @blur="show = false" @input="onInput" @delete="onDelete" @hide="checkFull" />
-
-            <!-- <div class="list">
+            <div class="list">
               <span class="listl">身份证是否长期</span>
               <div class="listr">
                 <vswitch :value="value" :FId="FId" :index="index" class="vswitch" :handle="true" @changeSwitch="changeSwitch"></vswitch>
               </div>
-            </div> -->
-            <!-- <div class="list" @click="showTimerFN('idCardIssueDate')">
+            </div>
+            <div class="list" @click="showTimerFN('idCardIssueDate')">
               <span class="listl">证件签发日</span>
               <div class="listr" style="position: relative;">
                 <input readonly="readonly" style="width: 50vw;display: block;background: none;line-height: 40px;" v-model="formData.idCardIssueDate" placeholder="请选择证件签发日" type="">
               </div>
-            </div> -->
-            <!-- <div class="list" @click="showTimerFN('idCardExpDate')" v-if="formData.idNeverExpired != '1'">
+            </div>
+            <div class="list" @click="showTimerFN('idCardExpDate')" v-if="formData.idNeverExpired != '1'">
               <span class="listl">证件到期日</span>
               <div class="listr" style="position: relative;">
                 <input readonly="readonly" style="width: 50vw;display: block;background: none;line-height: 40px;" v-model="formData.idCardExpDate" placeholder="请选择证件到期日" type="">
               </div>
-            </div> -->
-            <div class="list" @click="formDataYL.type = 'idcard'">
+            </div>
+
+            <div class="list">
+              <span class="listl">联系地址</span>
+              <div class="listr">
+                <!-- readonly="readonly" 只读-->
+                <input v-model="formDataYL.mapEncrypt.Id" placeholder="请输入联系地址" type="text">
+              </div>
+            </div>
+
+            <!-- <div class="list" @click="formDataYL.type = 'idcard'">
               <span class="listl">凭身份证开卡</span>
               <div class="listr">
                 <span class="circle" :class="formDataYL.type == 'idcard'?'circleac':''">
                   <img v-if="formDataYL.type == 'idcard'" src="../assets/dui.png">
                 </span>
               </div>
-            </div>
-            <div class="list" @click="formDataYL.type = 'one'">
+            </div> -->
+            <!-- <div class="list" @click="formDataYL.type = 'one'">
               <span class="listl">凭本人一类卡开卡</span>
               <div class="listr">
                 <span class="circle" :class="formDataYL.type == 'idcard'?'':'circleac'">
                   <img v-if="formDataYL.type != 'idcard'" src="../assets/dui.png">
                 </span>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
         <!-- 证件上传 -->
@@ -215,6 +228,33 @@
                 </div>
               </div>
             </div> -->
+
+            <div class="list" @click="formDataYL.type = 'idcard'">
+              <span class="listl">凭身份证开卡</span>
+              <div class="listr">
+                <span class="circle" :class="formDataYL.type == 'idcard'?'circleac':''">
+                  <img v-if="formDataYL.type == 'idcard'" src="../assets/dui.png">
+                </span>
+              </div>
+            </div>
+            <div class="list" @click="formDataYL.type = 'one'">
+              <span class="listl">凭本人一类卡开卡</span>
+              <div class="listr">
+                <span class="circle" :class="formDataYL.type == 'idcard'?'':'circleac'">
+                  <img v-if="formDataYL.type != 'idcard'" src="../assets/dui.png">
+                </span>
+              </div>
+            </div>
+
+            <div class="list" @click="show = true">
+              <span class="listl">银行卡号</span>
+              <div class="listr">
+                <input readonly="readonly" v-model="formDataYL.mapEncrypt.priAccNo" placeholder="请输入银行卡号" type="text">
+                <!-- <img class="cama" src="../assets/camara.png"> -->
+              </div>
+            </div>
+            <van-number-keyboard v-model="formDataYL.mapEncrypt.priAccNo" :maxlength="19" :show="show" close-button-text="完成" @blur="show = false" @input="onInput" @delete="onDelete" @hide="checkFull" />
+
             <div class="list">
               <span class="listl">手机号</span>
               <div class="listr">
@@ -231,6 +271,7 @@
               </div>
             </div>
           </div>
+
         </div>
         <!-- 完成 -->
         <div v-if="temp == 3" class="kkBox">
@@ -256,21 +297,21 @@
       <div v-else>
         <div class="btn" :class="canClick?'canClick':'noclick'" @click="nextFn()">
           {{temp == 0?'下一步':''}}
-          {{temp == 1?'下一步':''}}
+          {{temp == 1?'完成':''}}
           {{temp == 2?'完成':''}}
           {{temp == 3?'完成':''}}
         </div>
+      </div>
 
-        <div class="agreement" v-show="ylAgreement">
-          <div class="select" @click="agreeSelect">
-            <img v-show="agree" src="../assets/dui.png" alt="">
-            <span v-show="!agree"></span>
-          </div>
-          <span>已阅读并同意一下协议：<a href="javascript:(0)">《隐私政策》</a> <a href="javascript:(0)">《银联服务协议》</a></span>
+      <div class="agreement" v-show="ylAgreement">
+        <div class="select" @click="agreeSelect">
+          <img v-show="agree" src="../assets/dui.png" alt="">
+          <span v-show="!agree"></span>
         </div>
-
+        <span>已阅读并同意一下协议：<a href="javascript:(0)">《隐私政策》</a> <a href="javascript:(0)">《银联服务协议》</a></span>
       </div>
     </div>
+
     <div>
       <van-popup v-model="showTimer" position="bottom">
         <van-datetime-picker v-model="currentDate" type="date" title="选择年月日" :min-date="minDate" :max-date="maxDate" :formatter="formatter" @cancel="showTimer = false" @confirm="confirmTime" />
@@ -285,12 +326,15 @@
       <!-- </van-popup> -->
     </div>
   </div>
+
 </template>
 
 <script>
 // import Compressor from 'compressorjs';
 import croptep from '@/components/croptep.vue'
 import Exif from 'exif-js'
+import axios from 'axios'
+import JsBarcode from 'jsbarcode'
 export default {
   name: 'opencard',
   components: {
@@ -319,7 +363,7 @@ export default {
         idNeverExpired: '', //身份证是否长期
         idCardIssueDate: '', //证件签发日
         idCardExpDate: '', //证件到期日
-        userOccupation: '', //用户职业，24教学人员 Y1学生 Y9不便分类的其他从业
+        userOccupation: 'Y1', //用户职业，24教学人员 Y1学生 Y9不便分类的其他从业
         gender: '', //用户性别，M-男 F-女
         countryCode: '156', //用户国籍
         type: 'idcard', //开卡类型idcard,card
@@ -329,6 +373,7 @@ export default {
         password: '',
         passwordagain: '',
         code: '',
+        identity: '18',
       },
       issend: false,
       codeText: '发送验证码',
@@ -344,7 +389,7 @@ export default {
       orderNo: '', //短信订单号
       cardNo: '', //卡号
       pwdid: new Date().getTime(),
-      canClick: false,
+      canClick: true,
 
       //银联
       formDataYL: {
@@ -368,7 +413,7 @@ export default {
         type: 'idcard', //开卡的类型
       },
       agree: false, //同意协议
-      ylAgreement: true, //协议在显隐
+      ylAgreement: false, //协议在显隐
     }
   },
   watch: {
@@ -435,8 +480,17 @@ export default {
     // });
   },
   methods: {
+    //跳转协议
+    getupload() {
+      this.temp++
+      this.canClick = true
+    },
+
     //同意协议
     agreeSelect() {
+      this.agree = !this.agree
+      return
+
       this.agree = !this.agree
       this.checkFull()
       // console.log(this.agree)
@@ -444,6 +498,8 @@ export default {
 
     //检查信息录入
     checkFull() {
+      return
+
       // console.log(213)
       console.log(this.formDataYL.mapEncrypt.priAccNo)
       if (
@@ -763,6 +819,11 @@ export default {
       this.reset()
     },
     async setPwd() {
+      this.iserror = false
+      this.temp += 1
+      localStorage.setItem('vcardShow', 'false')
+      return
+
       this.$toast.loading({
         message: '开卡中...',
         forbidClick: true,
@@ -893,6 +954,39 @@ export default {
       this.temp += 1
       console.log(this.formData)
     },
+
+    getToken() {
+      return new Promise((resolve, reject) => {
+        let key = 'OntBf4VGK9KrMqtS4v2T0sna'
+        let secret = 'bFLBBkfFt3atOYQu9mP69visLQujTp7R'
+        axios({
+          url: 'https://aip.baidubce.com/oauth/2.0/token?grant_type=client_credentials&client_id=OntBf4VGK9KrMqtS4v2T0sna&client_secret=bFLBBkfFt3atOYQu9mP69visLQujTp7R',
+          // headers: {
+          //   'Content-Type': 'application/x-www-form-urlencoded',
+          //   'Access-Control-Allow-Origin': '*',
+          // },
+          method: 'post',
+          // params: {
+          //   grant_type: 'client_credentials',
+          //   client_id: key,
+          //   client_secret: secret,
+          // },
+        }).then((res) => {
+          resolve(res)
+        })
+      })
+    },
+
+    urlencode(str) {
+      str = (str + '').toString()
+      return encodeURIComponent(str)
+        .replace(/!/g, '%21')
+        .replace(/'/g, '%27')
+        .replace(/\(/g, '%28')
+        .replace(/\)/g, '%29')
+        .replace(/\*/g, '%2A')
+        .replace(/%20/g, '+')
+    },
     async upImgFn() {
       // var idPhotoFront = this.formData.idPhotoFront
       // var idPhotoBack = this.formData.idPhotoBack
@@ -918,6 +1012,28 @@ export default {
       // })
       // let ret = await this.$api.reqFn(data)
       // console.log(ret)
+
+      // formDataYL.idCardPicP = result
+      // formDataYL.idCardPicN = result
+
+      let result = await this.getToken()
+      alert(JSON.stringify(result))
+
+      axios({
+        url: `https://aip.baidubce.com/rest/2.0/ocr/v1/idcard?access_token=${result.data.access_token}`,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        method: 'POST',
+        data: `id_card_side=front&image=${this.urlencode(this.formDataYL.idCardPicP)}`,
+      }).then((res) => {
+        alert(JSON.stringify(res))
+      })
+      // this.temp--
+
+      this.formDataYL.idCardPicP
+
+      return
 
       if (!this.formDataYL.idCardPicP || !this.formDataYL.idCardPicN) {
         this.$toast('请上传完整的身份证件！')
@@ -987,15 +1103,15 @@ export default {
       }
     },
     //根据身份证获取年龄
-    getIdentifyAge(UUserCard) {
+    getIdentifyAge(UserCard) {
       var myDate = new Date()
       var month = myDate.getMonth() + 1
       var day = myDate.getDate()
-      var age = myDate.getFullYear() - UUserCard.substring(6, 10) - 1 //减去的一年用来对下面的条件判读
+      var age = myDate.getFullYear() - UserCard.substring(6, 10) - 1 //减去的一年用来对下面的条件判断
       if (
         //判断月份和天数和出生日期比较
-        UUserCard.substring(10, 12) < month ||
-        (UUserCard.substring(10, 12) == month && UUserCard.substring(12, 14) <= day)
+        UserCard.substring(10, 12) < month ||
+        (UserCard.substring(10, 12) == month && UserCard.substring(12, 14) <= day)
       ) {
         age++
       }
@@ -1004,6 +1120,26 @@ export default {
 
     //信息录入
     async enterInfo() {
+      //根据身份证获取年龄
+      // let userAge = this.getIdentifyAge(this.formDataYL.mapEncrypt.certifId)
+      // console.log(age)
+
+      // let checkInfo = /(^\d{18}$)/ //18位身份数字
+      // if (!checkInfo.test(this.formDataYL.mapEncrypt.certifId)) {
+      //   this.$toast('身份证信息有误！')
+      //   return
+      // } else if (userAge > 55 || userAge < 15) {
+      //   this.$toast('不符合开卡的年龄!')
+
+      //   return
+      // } else {
+      //   this.temp += 2
+      // }
+
+      this.temp += 2
+
+      return
+
       if (
         !this.formDataYL.mapEncrypt.phoneNo ||
         !this.formDataYL.mapEncrypt.customerNm ||
@@ -1207,7 +1343,7 @@ export default {
       this.showImg = false
     },
     sureCut(result) {
-      this.canClick = false
+      // this.canClick = false
 
       console.log(result)
       var self = this
@@ -1610,7 +1746,7 @@ export default {
 .listr .cama {
   width: 35px;
   height: 30px;
-  margin-left: 10px;
+  margin-left: 15px;
 }
 
 .listr .circle {
@@ -1631,6 +1767,10 @@ export default {
   background: #d93025;
   border: 1px solid #d93025;
 }
+
+/* .list .listr .identity {
+  padding-right: 10px;
+} */
 
 /*  */
 .zjBox {

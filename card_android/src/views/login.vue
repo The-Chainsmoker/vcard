@@ -276,7 +276,7 @@ export default {
         duration: 0,
       })
       //获取cid
-      let cid = await this.getCid()
+      // let cid = await this.getCid()
       // this.cid = cid
 
       var data = {
@@ -284,7 +284,7 @@ export default {
         mobileNo: _this.phone,
         smsOrder: _this.smsOrder,
         smsCode: _this.code,
-        cid,
+        // cid,
       }
       var ret = await _this.$api.reqFn(data)
       console.log(ret)
